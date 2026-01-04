@@ -12,6 +12,25 @@ app.listen(port,()=>console.log(`server listening on port${port}`))
 // add body parser middleware
 app.use(exp.json())
 
+
+// custom middleware
+
+function middleware1(req,res,next){
+    // either send response
+    console.log("middleware-1")
+    res.json({message:"this is res from middleware1"})
+    // forward req to next middleware
+    next()
+}
+
+// using middleware
+app.use(middleware1)  //use method is for every incoming req
+// app.get(middleware1) //get for only get req 
+// application level middleware
+
+
+
+
 // test-data
     let users=[]
 
@@ -22,6 +41,16 @@ app.use(exp.json())
         // read get useres and send res
         res.json({message:"all users ",payload:users})
     })
+
+
+    // route level middleware--->add as 2nd argument
+    // app.get('/users',middleware1,(req,res)=>{
+    //     // send response to client
+    //     // read get useres and send res
+    //     res.json({message:"all users ",payload:users})
+    // })
+
+
 
     // route to send a user by id
     app.get("/users/:id",(req,res)=>{
